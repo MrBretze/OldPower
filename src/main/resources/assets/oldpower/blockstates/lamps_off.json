@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "lampcolor=white": {"model": "oldpower:lamp_white"},
+    "lampcolor=orange": {"model": "oldpower:lamp_orange"},
+    "lampcolor=magenta": {"model": "oldpower:lamp_magenta"},
+    "lampcolor=light_blue": {"model": "oldpower:lamp_lightBlue"},
+    "lampcolor=yellow": {"model": "oldpower:lamp_yellow"},
+    "lampcolor=lime": {"model": "oldpower:lamp_lime"},
+    "lampcolor=pink": {"model": "oldpower:lamp_pink"},
+    "lampcolor=gray": {"model": "oldpower:lamp_gray"},
+    "lampcolor=silver": {"model": "oldpower:lamp_silver"},
+    "lampcolor=cyan": {"model": "oldpower:lamp_cyan"},
+    "lampcolor=purple": {"model": "oldpower:lamp_purple"},
+    "lampcolor=blue": {"model": "oldpower:lamp_blue"},
+    "lampcolor=brown": {"model": "oldpower:lamp_brown"},
+    "lampcolor=green": {"model": "oldpower:lamp_green"},
+    "lampcolor=red": {"model": "oldpower:lamp_red"},
+    "lampcolor=black": {"model": "oldpower:lamp_black"}
+  }
+}
