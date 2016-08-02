@@ -20,7 +20,7 @@ public class ClientProxy extends CommonProxy {
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
 
-        addBlockRender(CommonProxy.blockLamp, 0, OldPower.MODID + ":lamp_off_white", "inventory");
+        /*addBlockRender(CommonProxy.blockLamp, 0, OldPower.MODID + ":lamp_off_white", "inventory");
         addBlockRender(CommonProxy.blockLamp, 1, OldPower.MODID + ":lamp_off_orange", "inventory");
         addBlockRender(CommonProxy.blockLamp, 2, OldPower.MODID + ":lamp_off_magenta", "inventory");
         addBlockRender(CommonProxy.blockLamp, 3, OldPower.MODID + ":lamp_off_lightBlue", "inventory");
@@ -52,7 +52,7 @@ public class ClientProxy extends CommonProxy {
         addBlockRender(CommonProxy.blockDecorativeLamp, 12, OldPower.MODID + ":lamp_on_brown", "inventory");
         addBlockRender(CommonProxy.blockDecorativeLamp, 13, OldPower.MODID + ":lamp_on_green", "inventory");
         addBlockRender(CommonProxy.blockDecorativeLamp, 14, OldPower.MODID + ":lamp_on_red", "inventory");
-        addBlockRender(CommonProxy.blockDecorativeLamp, 15, OldPower.MODID + ":lamp_on_black", "inventory");
+        addBlockRender(CommonProxy.blockDecorativeLamp, 15, OldPower.MODID + ":lamp_on_black", "inventory");*/
     }
 
     @Override

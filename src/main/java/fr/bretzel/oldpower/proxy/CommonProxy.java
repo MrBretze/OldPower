@@ -11,11 +11,13 @@ import fr.bretzel.oldpower.util.Register;
 
 public class CommonProxy {
 
-    public static BlockBase blockLamp = new BlockLamp("lamp");
+    public static BlockBase blockLamp = new BlockLamp("lamp", false);
+    public static BlockBase blockLitLamp = new BlockLamp("lamp_lit", true);
     public static BlockBase blockDecorativeLamp = new BlockDecorativeLamp("lamp_decorative");
 
     public void preInit(FMLPreInitializationEvent e) {
         Register.registerBlock(blockLamp);
+        Register.registerBlock(blockLitLamp);
         Register.registerBlock(blockDecorativeLamp);
     }
 

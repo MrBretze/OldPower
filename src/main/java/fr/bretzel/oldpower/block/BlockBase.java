@@ -23,6 +23,10 @@ public abstract class BlockBase extends Block {
         return "tile." + OldPower.MODID  + "." + unlocalizedName;
     }
 
+    public String getOnlyUnlocalizedName() {
+        return unlocalizedName;
+    }
+
     public abstract String getTileEntityName();
 
     public abstract Class<? extends TileEntity> getTileEntity();

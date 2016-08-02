@@ -28,19 +28,25 @@ import fr.bretzel.oldpower.tiles.TileLamp;
 public class BlockLamp extends BlockBase implements ITileEntityProvider {
 
     public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("lampcolor", EnumDyeColor.class);
-    public static final PropertyBool LIT = PropertyBool.create("powered");
 
-    public boolean isPowered = false;
+    boolean isPowered = false;
 
-    public BlockLamp(String unlocalizedName) {
+    public BlockLamp(String unlocalizedName, boolean lit) {
         super(unlocalizedName);
-        setCreativeTab(OldPower.tabs);
+        if (!lit)
+            setCreativeTab(OldPower.tabs);
+        this.isPowered = lit;
         this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
     }
 
     @Override
     public int hasSubType() {
         return EnumDyeColor.values().length;
+    }
+
+    @Override
+    public String getSubTypeName(int metadata) {
+        return getOnlyUnlocalizedName() + "." + EnumDyeColor.byMetadata(metadata);
     }
 
     @Override
@@ -87,7 +93,7 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider {
 
     @Override
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return state.getValue(LIT).booleanValue() ? 15 : 0;
+        return isPowered ? 15 : 0;
     }
 
     @Override
@@ -102,7 +108,7 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider {
 
     @Override
     public String getTileEntityName() {
-        return "tile.oldpower.lamp";
+        return "tile.oldpower." + getOnlyUnlocalizedName();
     }
 
     @Override

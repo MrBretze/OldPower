@@ -28,15 +28,13 @@ public class Register {
         } else if (blockBase.getItemBlock() != null){
             GameRegistry.register(blockBase);
             try {
-                GameRegistry.register(blockBase.getItemBlock().getConstructor(Block.class).newInstance(blockBase).setRegistryName(blockBase.getRegistryName()));
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+                GameRegistry.register(blockBase.getItemBlock().getConstructor(BlockBase.class).newInstance(blockBase).setRegistryName(blockBase.getRegistryName()));
+            } catch (Exception e) {
+                try {
+                    GameRegistry.register(blockBase.getItemBlock().getConstructor(Block.class).newInstance(blockBase).setRegistryName(blockBase.getRegistryName()));
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
             }
         } else {
             throw new NullPointerException("The key: " + blockBase + " cant not be registered !");
