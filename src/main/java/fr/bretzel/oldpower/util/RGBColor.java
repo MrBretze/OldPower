@@ -156,11 +156,7 @@ public class RGBColor {
         }
 
         public static Color translateDyeColor(EnumDyeColor color) {
-            for (Color c : Color.VALID_COLORS) {
-                if (c.getMetadata() == color.getMetadata() || c.toString().toLowerCase().equals(color.name()))
-                    return c;
-            }
-            return null;
+            return VALID_COLORS[color.getMetadata()];
         }
     }
 }

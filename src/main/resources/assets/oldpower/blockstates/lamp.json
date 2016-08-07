@@ -1,20 +1,20 @@
 {
   "variants": {
-    "lampcolor=white": {"model": "oldpower:lamp_white"},
-    "lampcolor=orange": {"model": "oldpower:lamp_orange"},
-    "lampcolor=magenta": {"model": "oldpower:lamp_magenta"},
-    "lampcolor=light_blue": {"model": "oldpower:lamp_lightBlue"},
-    "lampcolor=yellow": {"model": "oldpower:lamp_yellow"},
-    "lampcolor=lime": {"model": "oldpower:lamp_lime"},
-    "lampcolor=pink": {"model": "oldpower:lamp_pink"},
-    "lampcolor=gray": {"model": "oldpower:lamp_gray"},
-    "lampcolor=silver": {"model": "oldpower:lamp_silver"},
-    "lampcolor=cyan": {"model": "oldpower:lamp_cyan"},
-    "lampcolor=purple": {"model": "oldpower:lamp_purple"},
-    "lampcolor=blue": {"model": "oldpower:lamp_blue"},
-    "lampcolor=brown": {"model": "oldpower:lamp_brown"},
-    "lampcolor=green": {"model": "oldpower:lamp_green"},
-    "lampcolor=red": {"model": "oldpower:lamp_red"},
-    "lampcolor=black": {"model": "oldpower:lamp_black"}
+    "lampcolor=white": {"model": "oldpower:un_lit/white"},
+    "lampcolor=orange": {"model": "oldpower:un_lit/orange"},
+    "lampcolor=magenta": {"model": "oldpower:un_lit/magenta"},
+    "lampcolor=light_blue": {"model": "oldpower:un_lit/lightBlue"},
+    "lampcolor=yellow": {"model": "oldpower:un_lit/yellow"},
+    "lampcolor=lime": {"model": "oldpower:un_lit/lime"},
+    "lampcolor=pink": {"model": "oldpower:un_lit/pink"},
+    "lampcolor=gray": {"model": "oldpower:un_lit/gray"},
+    "lampcolor=silver": {"model": "oldpower:un_lit/silver"},
+    "lampcolor=cyan": {"model": "oldpower:un_lit/cyan"},
+    "lampcolor=purple": {"model": "oldpower:un_lit/purple"},
+    "lampcolor=blue": {"model": "oldpower:un_lit/blue"},
+    "lampcolor=brown": {"model": "oldpower:un_lit/brown"},
+    "lampcolor=green": {"model": "oldpower:un_lit/green"},
+    "lampcolor=red": {"model": "oldpower:un_lit/red"},
+    "lampcolor=black": {"model": "oldpower:un_lit/black"}
   }
 }

@@ -4,36 +4,28 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
-import fr.bretzel.oldpower.block.BlockLamp;
-import fr.bretzel.oldpower.tiles.TileLamp;
+import fr.bretzel.oldpower.block.BlockDecorativeLamp;
+import fr.bretzel.oldpower.tiles.TileDecoLamp;
 import fr.bretzel.oldpower.util.RGBColor;
 import fr.bretzel.oldpower.util.Util;
 import fr.bretzel.oldpower.util.Vec3DCube;
 import fr.bretzel.oldpower.util.Vec3d;
 
-@SideOnly(Side.CLIENT)
-public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
+public class RenderDecorativeLamp extends TileEntitySpecialRenderer<TileDecoLamp> {
+
 
     public static int pass;
 
-    public RenderLamp() {
+    public RenderDecorativeLamp() {
     }
 
     @Override
-    public void renderTileEntityAt(TileLamp te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void renderTileEntityAt(TileDecoLamp te, double x, double y, double z, float partialTicks, int destroyStage) {
 
-        if (!(te.getBlockType() instanceof BlockLamp)) {
-            return;
-        }
-
-        BlockLamp lamp = (BlockLamp) te.getBlockType();
-
-        if (pass != 0 && getWorld().getBlockState(te.getPos()).getProperties().size() > 0 && lamp.isPowered) {
+        if (pass != 0) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(x, y, z);
             GlStateManager.enableBlend();
@@ -55,25 +47,23 @@ public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
             for (EnumFacing enumFacing : EnumFacing.VALUES) {
                 Vec3d vec3d = vector.getRelative(enumFacing);
                 Block block = vec3d.getBlock(getWorld());
-                if (block instanceof BlockLamp ) {
-                    BlockLamp l = (BlockLamp) block;
-
-                    if (enumFacing == EnumFacing.UP && l.isPowered) {
+                if (block instanceof BlockDecorativeLamp) {
+                    if (enumFacing == EnumFacing.UP) {
                         drawfaces[0] = false;
                         cube.getMax().setY(0.5);
-                    } else if (enumFacing == EnumFacing.DOWN && l.isPowered) {
+                    } else if (enumFacing == EnumFacing.DOWN) {
                         drawfaces[1] = false;
                         cube.getMin().setY(-0.5);
-                    } else if (enumFacing == EnumFacing.WEST && l.isPowered) {
+                    } else if (enumFacing == EnumFacing.WEST) {
                         drawfaces[2] = false;
                         cube.getMin().setX(-0.5);
-                    } else if (enumFacing == EnumFacing.EAST && l.isPowered) {
+                    } else if (enumFacing == EnumFacing.EAST) {
                         drawfaces[3] = false;
                         cube.getMax().setX(0.5);
-                    } else if (enumFacing == EnumFacing.NORTH && l.isPowered) {
+                    } else if (enumFacing == EnumFacing.NORTH) {
                         drawfaces[4] = false;
                         cube.getMin().setZ(-0.5);
-                    } else if (enumFacing == EnumFacing.SOUTH && l.isPowered) {
+                    } else if (enumFacing == EnumFacing.SOUTH) {
                         drawfaces[5] = false;
                         cube.getMax().setZ(0.5);
                     }
@@ -83,11 +73,12 @@ public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
             cube.getMin().add(0.5, 0.5, 0.5);
             cube.getMax().add(0.5, 0.5, 0.5);
 
-            RGBColor rgbColor = RGBColor.getRGB(getWorld().getBlockState(te.getPos()).getValue(BlockLamp.COLOR));
+            RGBColor rgbColor = RGBColor.getRGB(getWorld().getBlockState(te.getPos()).getValue(BlockDecorativeLamp.COLOR));
 
 
-            //TODO: That is work just prefer new RGB
-            int color = rgbColor.getHex(getWorld().getBlockState(te.getPos()).getValue(BlockLamp.COLOR));
+            // TODO: That is work in dont prefer new RGB
+
+            int color = rgbColor.getHex(getWorld().getBlockState(te.getPos()).getValue(BlockDecorativeLamp.COLOR));
 
             int redMask = 0xFF0000, greenMask = 0xFF00, blueMask = 0xFF;
             int r = (color & redMask) >> 16;
@@ -107,4 +98,5 @@ public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
             GlStateManager.popMatrix();
         }
     }
+
 }

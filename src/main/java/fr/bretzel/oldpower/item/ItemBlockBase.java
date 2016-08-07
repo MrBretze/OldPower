@@ -15,9 +15,14 @@ public class ItemBlockBase extends ItemBlock {
         this.blockBase = block;
 
         if (blockBase.hasSubType() > 0) {
-            setHasSubtypes(blockBase.hasSubType() > 0);
+            setHasSubtypes(true);
             setMaxDamage(0);
         }
+    }
+
+    @Override
+    public int getMetadata(int damage) {
+        return damage;
     }
 
     @Override
