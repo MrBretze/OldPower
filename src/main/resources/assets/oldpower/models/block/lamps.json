@@ -1,5 +1,5 @@
 {
-  "parent": "oldpower:block/lamps",
+  "parent": "block/cube_all",
   "textures": {
     "all": "oldpower:blocks/lit/black"
   }

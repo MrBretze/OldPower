@@ -80,9 +80,9 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider {
 
     @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-        for (EnumDyeColor color : EnumDyeColor.values()) {
-            list.add(new ItemStack(itemIn, 1, color.getMetadata()));
-        }
+        if (!isPowered)
+            for (EnumDyeColor color : EnumDyeColor.values())
+                list.add(new ItemStack(itemIn, 1, color.getMetadata()));
     }
 
     @Override

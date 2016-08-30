@@ -3,15 +3,12 @@ package fr.bretzel.oldpower;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
-import org.apache.logging.log4j.Logger;
 
 import fr.bretzel.oldpower.proxy.CommonProxy;
 
@@ -27,8 +24,6 @@ public class OldPower {
     public static final String VERSION_MINECRAFT = "[1.10]";
 
     public static final String VERSION = "V-" + VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_FIX;
-
-    public static final Logger logger = FMLLog.getLogger();
 
     @SidedProxy(serverSide = "fr.bretzel.oldpower.proxy.CommonProxy", clientSide = "fr.bretzel.oldpower.proxy.ClientProxy")
     public static CommonProxy proxy;
