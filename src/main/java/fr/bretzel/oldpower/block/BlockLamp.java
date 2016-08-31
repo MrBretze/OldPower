@@ -38,6 +38,9 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider {
             setCreativeTab(OldPower.tabs);
         this.isPowered = lit;
         this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
+
+        if (isPowered)
+            setLightLevel(1.0F);
     }
 
     @Override
@@ -93,11 +96,6 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider {
     }
 
     @Override
-    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return isPowered ? 15 : 0;
-    }
-
-    @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileLamp();
     }
@@ -110,14 +108,6 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider {
     @Override
     public String getTileEntityName() {
         return "tile.oldpower." + getOnlyUnlocalizedName();
-    }
-
-    public void updateTick(World world, BlockPos pos, IBlockState blockState, Random p_updateTick_4_) {
-        if(!world.isRemote) {
-            if(this.isPowered && !world.isBlockPowered(pos)) {
-                world.setBlockState(pos, CommonRegistry.blockLitLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
-            }
-        }
     }
 
     @Override
@@ -134,10 +124,17 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider {
     @Override
     public void neighborChanged(IBlockState blockState, World world, BlockPos pos, Block blockIn) {
         if (!world.isRemote) {
-            if (!isPowered && world.isBlockPowered(pos)) {
+            if (isPowered && !world.isBlockPowered(pos)) {
                 world.scheduleUpdate(pos, this, 4);
+            } else if (!isPowered && world.isBlockPowered(pos)) {
                 world.setBlockState(pos, CommonRegistry.blockLitLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
-            } else if (isPowered && !world.isBlockPowered(pos)) {
+            }
+        }
+    }
+
+    public void updateTick(World world, BlockPos pos, IBlockState blockState, Random p_updateTick_4_) {
+        if(!world.isRemote) {
+            if(this.isPowered && !world.isBlockPowered(pos)) {
                 world.setBlockState(pos, CommonRegistry.blockLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
             }
         }

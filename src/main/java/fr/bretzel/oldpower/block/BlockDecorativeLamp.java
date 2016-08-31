@@ -30,6 +30,7 @@ public class BlockDecorativeLamp extends BlockBase implements ITileEntityProvide
     public BlockDecorativeLamp(String unlocalizedName) {
         super(unlocalizedName);
         setCreativeTab(OldPower.tabs);
+        setLightLevel(1.0F);
         this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
     }
 
@@ -73,11 +74,6 @@ public class BlockDecorativeLamp extends BlockBase implements ITileEntityProvide
     @Override
     public String getSubTypeName(int metadata) {
         return getOnlyUnlocalizedName() + "." + EnumDyeColor.byMetadata(metadata);
-    }
-
-    @Override
-    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return 15;
     }
 
     @Override
