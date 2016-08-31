@@ -1,5 +1,7 @@
 package fr.bretzel.oldpower.render;
 
+import fr.bretzel.oldpower.api.block.ILamp;
+import fr.bretzel.oldpower.block.BlockDecorativeLamp;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -33,7 +35,7 @@ public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
 
         BlockLamp lamp = (BlockLamp) te.getBlockType();
 
-        if (pass != 0 && getWorld().getBlockState(te.getPos()).getProperties().size() > 0 && lamp.isPowered) {
+        if (pass != 0 && getWorld().getBlockState(te.getPos()).getProperties().size() > 0 && lamp.isPowered()) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(x, y, z);
             GlStateManager.enableBlend();
@@ -55,25 +57,25 @@ public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
             for (EnumFacing enumFacing : EnumFacing.VALUES) {
                 Vec3d vec3d = vector.getRelative(enumFacing);
                 Block block = vec3d.getBlock(getWorld());
-                if (block instanceof BlockLamp ) {
-                    BlockLamp l = (BlockLamp) block;
+                if (block instanceof BlockLamp || block instanceof BlockDecorativeLamp) {
+                    ILamp l = (ILamp) block;
 
-                    if (enumFacing == EnumFacing.UP && l.isPowered) {
+                    if (enumFacing == EnumFacing.UP && l.isPowered()) {
                         drawfaces[0] = false;
                         cube.getMax().setY(0.5);
-                    } else if (enumFacing == EnumFacing.DOWN && l.isPowered) {
+                    } else if (enumFacing == EnumFacing.DOWN && l.isPowered()) {
                         drawfaces[1] = false;
                         cube.getMin().setY(-0.5);
-                    } else if (enumFacing == EnumFacing.WEST && l.isPowered) {
+                    } else if (enumFacing == EnumFacing.WEST && l.isPowered()) {
                         drawfaces[2] = false;
                         cube.getMin().setX(-0.5);
-                    } else if (enumFacing == EnumFacing.EAST && l.isPowered) {
+                    } else if (enumFacing == EnumFacing.EAST && l.isPowered()) {
                         drawfaces[3] = false;
                         cube.getMax().setX(0.5);
-                    } else if (enumFacing == EnumFacing.NORTH && l.isPowered) {
+                    } else if (enumFacing == EnumFacing.NORTH && l.isPowered()) {
                         drawfaces[4] = false;
                         cube.getMin().setZ(-0.5);
-                    } else if (enumFacing == EnumFacing.SOUTH && l.isPowered) {
+                    } else if (enumFacing == EnumFacing.SOUTH && l.isPowered()) {
                         drawfaces[5] = false;
                         cube.getMax().setZ(0.5);
                     }
@@ -85,8 +87,6 @@ public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
 
             RGBColor rgbColor = RGBColor.getRGB(getWorld().getBlockState(te.getPos()).getValue(BlockLamp.COLOR));
 
-
-            //TODO: That is work just prefer new RGB
             int color = rgbColor.getHex(getWorld().getBlockState(te.getPos()).getValue(BlockLamp.COLOR));
 
             int redMask = 0xFF0000, greenMask = 0xFF00, blueMask = 0xFF;

@@ -13,6 +13,7 @@ import fr.bretzel.oldpower.util.RGBColor;
 import fr.bretzel.oldpower.util.Util;
 import fr.bretzel.oldpower.util.Vec3DCube;
 import fr.bretzel.oldpower.util.Vec3d;
+import fr.bretzel.oldpower.block.BlockLamp;
 
 public class RenderDecorativeLamp extends TileEntitySpecialRenderer<TileDecoLamp> {
 
@@ -47,7 +48,7 @@ public class RenderDecorativeLamp extends TileEntitySpecialRenderer<TileDecoLamp
             for (EnumFacing enumFacing : EnumFacing.VALUES) {
                 Vec3d vec3d = vector.getRelative(enumFacing);
                 Block block = vec3d.getBlock(getWorld());
-                if (block instanceof BlockDecorativeLamp) {
+                if (block instanceof BlockLamp || block instanceof BlockDecorativeLamp) {
                     if (enumFacing == EnumFacing.UP) {
                         drawfaces[0] = false;
                         cube.getMax().setY(0.5);
@@ -74,9 +75,6 @@ public class RenderDecorativeLamp extends TileEntitySpecialRenderer<TileDecoLamp
             cube.getMax().add(0.5, 0.5, 0.5);
 
             RGBColor rgbColor = RGBColor.getRGB(getWorld().getBlockState(te.getPos()).getValue(BlockDecorativeLamp.COLOR));
-
-
-            // TODO: That is work in dont prefer new RGB
 
             int color = rgbColor.getHex(getWorld().getBlockState(te.getPos()).getValue(BlockDecorativeLamp.COLOR));
 

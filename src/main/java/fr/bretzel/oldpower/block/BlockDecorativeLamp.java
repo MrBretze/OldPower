@@ -1,5 +1,6 @@
 package fr.bretzel.oldpower.block;
 
+import fr.bretzel.oldpower.api.block.ILamp;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.PropertyEnum;
@@ -23,7 +24,7 @@ import fr.bretzel.oldpower.item.ItemBlockBase;
 import fr.bretzel.oldpower.item.ItemBlockLamp;
 import fr.bretzel.oldpower.tiles.TileDecoLamp;
 
-public class BlockDecorativeLamp extends BlockBase implements ITileEntityProvider {
+public class BlockDecorativeLamp extends BlockBase implements ITileEntityProvider, ILamp {
 
     public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("lampcolor", EnumDyeColor.class);
 
@@ -99,5 +100,10 @@ public class BlockDecorativeLamp extends BlockBase implements ITileEntityProvide
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileDecoLamp();
+    }
+
+    @Override
+    public boolean isPowered() {
+        return true;
     }
 }

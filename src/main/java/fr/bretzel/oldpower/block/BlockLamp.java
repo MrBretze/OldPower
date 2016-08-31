@@ -1,6 +1,6 @@
 package fr.bretzel.oldpower.block;
 
-import fr.bretzel.oldpower.util.CommonRegistry;
+import fr.bretzel.oldpower.api.block.ILamp;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -25,12 +24,13 @@ import fr.bretzel.oldpower.OldPower;
 import fr.bretzel.oldpower.item.ItemBlockBase;
 import fr.bretzel.oldpower.item.ItemBlockLamp;
 import fr.bretzel.oldpower.tiles.TileLamp;
+import fr.bretzel.oldpower.util.CommonRegistry;
 
-public class BlockLamp extends BlockBase implements ITileEntityProvider {
+public class BlockLamp extends BlockBase implements ITileEntityProvider, ILamp {
 
     public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("lampcolor", EnumDyeColor.class);
 
-    public boolean isPowered = false;
+    private boolean isPowered = false;
 
     public BlockLamp(String unlocalizedName, boolean lit) {
         super(unlocalizedName);
@@ -122,21 +122,26 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider {
     }
 
     @Override
-    public void neighborChanged(IBlockState blockState, World world, BlockPos pos, Block blockIn) {
+    public void neighborChanged(IBlockState blockState, World world, BlockPos pos, Block block) {
         if (!world.isRemote) {
             if (isPowered && !world.isBlockPowered(pos)) {
-                world.scheduleUpdate(pos, this, 4);
+                world.scheduleUpdate(pos, block, 4);
             } else if (!isPowered && world.isBlockPowered(pos)) {
                 world.setBlockState(pos, CommonRegistry.blockLitLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
             }
         }
     }
 
-    public void updateTick(World world, BlockPos pos, IBlockState blockState, Random p_updateTick_4_) {
+    public void updateTick(World world, BlockPos pos, IBlockState blockState, Random random) {
         if(!world.isRemote) {
             if(this.isPowered && !world.isBlockPowered(pos)) {
                 world.setBlockState(pos, CommonRegistry.blockLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
             }
         }
+    }
+
+    @Override
+    public boolean isPowered() {
+        return isPowered;
     }
 }
