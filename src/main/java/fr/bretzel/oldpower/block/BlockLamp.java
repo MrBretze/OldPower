@@ -1,5 +1,6 @@
 package fr.bretzel.oldpower.block;
 
+import fr.bretzel.oldpower.util.CommonRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
@@ -18,6 +19,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Random;
 
 import fr.bretzel.oldpower.OldPower;
 import fr.bretzel.oldpower.item.ItemBlockBase;
@@ -110,10 +112,34 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider {
         return "tile.oldpower." + getOnlyUnlocalizedName();
     }
 
-    @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-        if (isPowered && !worldIn.isBlockPowered(pos)) {
+    public void updateTick(World world, BlockPos pos, IBlockState blockState, Random p_updateTick_4_) {
+        if(!world.isRemote) {
+            if(this.isPowered && !world.isBlockPowered(pos)) {
+                world.setBlockState(pos, CommonRegistry.blockLitLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
+            }
+        }
+    }
 
+    @Override
+    public void onBlockAdded(World world, BlockPos pos, IBlockState blockState) {
+        if(!world.isRemote) {
+            if(this.isPowered && !world.isBlockPowered(pos)) {
+                world.setBlockState(pos, CommonRegistry.blockLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
+            } else if(!this.isPowered && world.isBlockPowered(pos)) {
+                world.setBlockState(pos, CommonRegistry.blockLitLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
+            }
+        }
+    }
+
+    @Override
+    public void neighborChanged(IBlockState blockState, World world, BlockPos pos, Block blockIn) {
+        if (!world.isRemote) {
+            if (!isPowered && world.isBlockPowered(pos)) {
+                world.scheduleUpdate(pos, this, 4);
+                world.setBlockState(pos, CommonRegistry.blockLitLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
+            } else if (isPowered && !world.isBlockPowered(pos)) {
+                world.setBlockState(pos, CommonRegistry.blockLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
+            }
         }
     }
 }
