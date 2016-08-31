@@ -1,5 +1,6 @@
 package fr.bretzel.oldpower.render;
 
+import fr.bretzel.oldpower.api.LampType;
 import fr.bretzel.oldpower.api.block.ILamp;
 import fr.bretzel.oldpower.block.BlockDecorativeLamp;
 import net.minecraft.block.Block;
@@ -35,7 +36,7 @@ public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
 
         BlockLamp lamp = (BlockLamp) te.getBlockType();
 
-        if (pass != 0 && getWorld().getBlockState(te.getPos()).getProperties().size() > 0 && lamp.isPowered()) {
+        if (pass != 0 && getWorld().getBlockState(te.getPos()).getProperties().size() > 0 && isPowered(lamp)) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(x, y, z);
             GlStateManager.enableBlend();
@@ -60,22 +61,22 @@ public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
                 if (block instanceof BlockLamp || block instanceof BlockDecorativeLamp) {
                     ILamp l = (ILamp) block;
 
-                    if (enumFacing == EnumFacing.UP && l.isPowered()) {
+                    if (enumFacing == EnumFacing.UP && isPowered(l)) {
                         drawfaces[0] = false;
                         cube.getMax().setY(0.5);
-                    } else if (enumFacing == EnumFacing.DOWN && l.isPowered()) {
+                    } else if (enumFacing == EnumFacing.DOWN && isPowered(l)) {
                         drawfaces[1] = false;
                         cube.getMin().setY(-0.5);
-                    } else if (enumFacing == EnumFacing.WEST && l.isPowered()) {
+                    } else if (enumFacing == EnumFacing.WEST && isPowered(l)) {
                         drawfaces[2] = false;
                         cube.getMin().setX(-0.5);
-                    } else if (enumFacing == EnumFacing.EAST && l.isPowered()) {
+                    } else if (enumFacing == EnumFacing.EAST && isPowered(l)) {
                         drawfaces[3] = false;
                         cube.getMax().setX(0.5);
-                    } else if (enumFacing == EnumFacing.NORTH && l.isPowered()) {
+                    } else if (enumFacing == EnumFacing.NORTH && isPowered(l)) {
                         drawfaces[4] = false;
                         cube.getMin().setZ(-0.5);
-                    } else if (enumFacing == EnumFacing.SOUTH && l.isPowered()) {
+                    } else if (enumFacing == EnumFacing.SOUTH && isPowered(l)) {
                         drawfaces[5] = false;
                         cube.getMax().setZ(0.5);
                     }
@@ -106,5 +107,9 @@ public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
             GlStateManager.translate(-x, -y, -z);
             GlStateManager.popMatrix();
         }
+    }
+
+    public static boolean isPowered(ILamp blockLamp) {
+        return blockLamp.getLampType() == LampType.LAMP_LIT || blockLamp.getLampType() == LampType.LAMP_DECORATIVE;
     }
 }

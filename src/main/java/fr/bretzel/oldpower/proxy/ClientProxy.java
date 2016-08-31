@@ -10,9 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import fr.bretzel.oldpower.OldPower;
-import fr.bretzel.oldpower.render.RenderDecorativeLamp;
 import fr.bretzel.oldpower.render.RenderLamp;
-import fr.bretzel.oldpower.tiles.TileDecoLamp;
 import fr.bretzel.oldpower.tiles.TileLamp;
 
 public class ClientProxy extends CommonProxy {
@@ -78,7 +76,6 @@ public class ClientProxy extends CommonProxy {
         super.init(e);
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileLamp.class, new RenderLamp());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileDecoLamp.class, new RenderDecorativeLamp());
     }
 
     private static void addBlockRender(net.minecraft.block.Block block, int metadata, String blockString, String location) {
