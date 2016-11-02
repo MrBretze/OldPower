@@ -1,0 +1,6 @@
+{
+  "parent": "oldpower:block/lamps",
+  "textures": {
+    "all": "oldpower:blocks/un_lit/red"
+  }
+}
