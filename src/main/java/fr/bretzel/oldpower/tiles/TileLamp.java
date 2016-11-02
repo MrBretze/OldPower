@@ -3,7 +3,7 @@ package fr.bretzel.oldpower.tiles;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 
-import fr.bretzel.oldpower.render.RenderLamp;
+import fr.bretzel.oldpower.client.render.RenderLamp;
 
 public class TileLamp extends TileEntity {
 

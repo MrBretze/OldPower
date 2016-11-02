@@ -25,7 +25,7 @@ public class OldPower {
 
     public static final String VERSION = "V-" + VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_FIX;
 
-    @SidedProxy(serverSide = "fr.bretzel.oldpower.proxy.CommonProxy", clientSide = "fr.bretzel.oldpower.proxy.ClientProxy")
+    @SidedProxy(serverSide = "fr.bretzel.oldpower.proxy.CommonProxy", clientSide = "fr.bretzel.oldpower.client.ClientProxy")
     public static CommonProxy proxy;
 
     @EventHandler

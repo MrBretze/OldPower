@@ -8,8 +8,6 @@ import fr.bretzel.oldpower.OldPower;
 
 public class BlockDecorativeLamp extends BlockLamp {
 
-    public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("lampcolor", EnumDyeColor.class);
-
     public BlockDecorativeLamp(String unlocalizedName) {
         super(unlocalizedName, LampType.LAMP_DECORATIVE);
         setCreativeTab(OldPower.tabs);
