@@ -1,8 +1,10 @@
 package fr.bretzel.oldpower;
 
+import fr.bretzel.oldpower.util.CommonRegistry;
+import fr.bretzel.oldpower.util.RGBColor;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -12,6 +14,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import fr.bretzel.oldpower.proxy.CommonProxy;
 
+import java.util.Random;
+
 @Mod(modid = OldPower.MODID, version = OldPower.VERSION, acceptedMinecraftVersions = OldPower.VERSION_MINECRAFT)
 public class OldPower {
 
@@ -20,6 +24,7 @@ public class OldPower {
     public static final int VERSION_MAJOR = 0;
     public static final int VERSION_MINOR = 0;
     public static final int VERSION_FIX = 1;
+    public static Random random = new Random();
 
     public static final String VERSION_MINECRAFT = "[1.10]";
 
@@ -45,9 +50,24 @@ public class OldPower {
 
     public static final CreativeTabs tabs = new CreativeTabs("OldPower") {
 
+        int last_i = 0;
+        boolean last_b;
+
+        @Override
+        public ItemStack getIconItemStack() {
+            int i = (int)((System.currentTimeMillis() / 1000));
+
+            if (i != last_i) {
+                last_i = i;
+                last_b = random.nextBoolean();
+            }
+
+            return new ItemStack(last_b ? CommonRegistry.blockDecorativeLamp : CommonRegistry.blockLamp, 1, (i % RGBColor.Color.COLORS.length));
+        }
+
         @Override
         public Item getTabIconItem() {
-            return Item.getItemFromBlock(Blocks.COMMAND_BLOCK);
+            return null;
         }
     };
 }

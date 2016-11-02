@@ -81,7 +81,7 @@ public class RGBColor {
         }
     }
 
-    private enum Color {
+    public enum Color {
 
         WHITE(15461355, 15790320, 16777215, 'f', 0), //
         ORANGE(13399095, 15435844, 16228709, '6', 1), //
@@ -102,7 +102,7 @@ public class RGBColor {
         NONE(-1, -1, -1, (char) -1, -1), //
         ANY(-1, -1, -1, (char) -1, -1);
 
-        public static Color[] VALID_COLORS = {WHITE, ORANGE, MAGENTA, LIGHT_BLUE, YELLOW, LIME, PINK, GRAY, SILVER, CYAN, PURPLE,
+        public static Color[] COLORS = {WHITE, ORANGE, MAGENTA, LIGHT_BLUE, YELLOW, LIME, PINK, GRAY, SILVER, CYAN, PURPLE,
                 BLUE, BROWN, GREEN, RED, BLACK};
         public static Color[] WIRE_COLORS = {WHITE, ORANGE, MAGENTA, LIGHT_BLUE, YELLOW, LIME, PINK, GRAY, SILVER, CYAN, PURPLE,
                 BLUE, BROWN, GREEN, RED, BLACK, NONE};
@@ -156,7 +156,7 @@ public class RGBColor {
         }
 
         public static Color translateDyeColor(EnumDyeColor color) {
-            return VALID_COLORS[color.getMetadata()];
+            return COLORS[color.getMetadata()];
         }
     }
 }

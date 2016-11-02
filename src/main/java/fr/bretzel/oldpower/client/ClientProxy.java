@@ -4,6 +4,7 @@ import fr.bretzel.oldpower.proxy.CommonProxy;
 import fr.bretzel.oldpower.util.CommonRegistry;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
