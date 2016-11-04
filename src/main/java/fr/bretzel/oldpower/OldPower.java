@@ -5,6 +5,7 @@ import fr.bretzel.oldpower.util.RGBColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -13,11 +14,14 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import fr.bretzel.oldpower.proxy.CommonProxy;
+import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.Random;
 
 @Mod(modid = OldPower.MODID, version = OldPower.VERSION, acceptedMinecraftVersions = OldPower.VERSION_MINECRAFT)
 public class OldPower {
+
+    public static boolean isClientSide = FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT;
 
     public static final String MODID = "oldpower";
 
@@ -26,7 +30,7 @@ public class OldPower {
     public static final int VERSION_FIX = 1;
     public static Random random = new Random();
 
-    public static final String VERSION_MINECRAFT = "[1.10]";
+    public static final String VERSION_MINECRAFT = "1.9.4,1.10.2";
 
     public static final String VERSION = "V-" + VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_FIX;
 

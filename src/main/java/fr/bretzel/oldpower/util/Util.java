@@ -76,4 +76,12 @@ public class Util {
 
         GL11.glColor4d(1, 1, 1, 1);
     }
+
+    public static long mean(long[] values) {
+        long sum = 0l;
+        for (long v : values) {
+            sum += v;
+        }
+        return sum / values.length;
+    }
 }

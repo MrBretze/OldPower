@@ -1,0 +1,37 @@
+#Block
+tile.oldpower.lamp.white.name=White Lamp
+tile.oldpower.lamp.orange.name=Orange Lamp
+tile.oldpower.lamp.magenta.name=Magenta Lamp
+tile.oldpower.lamp.lightBlue.name=Light Blue Lamp
+tile.oldpower.lamp.yellow.name=Yellow Lamp
+tile.oldpower.lamp.lime.name=Lime Lamp
+tile.oldpower.lamp.pink.name=Pink Lamp
+tile.oldpower.lamp.gray.name=Gray Lamp
+tile.oldpower.lamp.silver.name=Light Gray Lamp
+tile.oldpower.lamp.cyan.name=Cyan Lamp
+tile.oldpower.lamp.purple.name=Purple Lamp
+tile.oldpower.lamp.blue.name=Blue Lamp
+tile.oldpower.lamp.brown.name=Brown Lamp
+tile.oldpower.lamp.green.name=Green Lamp
+tile.oldpower.lamp.red.name=Red Lamp
+tile.oldpower.lamp.black.name=Black Lamp
+
+tile.oldpower.lamp_decorative.white.name=White Lamp
+tile.oldpower.lamp_decorative.orange.name=Orange Lamp
+tile.oldpower.lamp_decorative.magenta.name=Magenta Lamp
+tile.oldpower.lamp_decorative.lightBlue.name=Light Blue Lamp
+tile.oldpower.lamp_decorative.yellow.name=Yellow Lamp
+tile.oldpower.lamp_decorative.lime.name=Lime Lamp
+tile.oldpower.lamp_decorative.pink.name=Pink Lamp
+tile.oldpower.lamp_decorative.gray.name=Gray Lamp
+tile.oldpower.lamp_decorative.silver.name=Light Gray Lamp
+tile.oldpower.lamp_decorative.cyan.name=Cyan Lamp
+tile.oldpower.lamp_decorative.purple.name=Purple Lamp
+tile.oldpower.lamp_decorative.blue.name=Blue Lamp
+tile.oldpower.lamp_decorative.brown.name=Brown Lamp
+tile.oldpower.lamp_decorative.green.name=Green Lamp
+tile.oldpower.lamp_decorative.red.name=Red Lamp
+tile.oldpower.lamp_decorative.black.name=Black Lamp
+
+#Creative tabs
+itemGroup.OldPower=Old Power

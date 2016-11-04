@@ -20,6 +20,10 @@ public class ItemBlockBase extends ItemBlock {
         }
     }
 
+    public BlockBase getBlockBase() {
+        return blockBase;
+    }
+
     @Override
     public int getMetadata(int damage) {
         return damage;

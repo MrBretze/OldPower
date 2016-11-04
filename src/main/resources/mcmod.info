@@ -1,13 +1,13 @@
 [
 {
   "modid": "oldpower",
-  "name": "OldPower !",
-  "description": "Example placeholder mod.",
+  "name": "OldPower",
+  "description": "This a mod for the fun",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
+  "authorList": ["MrBretzel"],
   "credits": "The Forge and FML guys, for making this example",
   "logoFile": "",
   "screenshots": [],

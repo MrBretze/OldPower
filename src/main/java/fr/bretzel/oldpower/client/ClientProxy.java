@@ -1,11 +1,13 @@
 package fr.bretzel.oldpower.client;
 
+import fr.bretzel.oldpower.client.render.RenderDebugScreen;
 import fr.bretzel.oldpower.proxy.CommonProxy;
 import fr.bretzel.oldpower.util.CommonRegistry;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -78,6 +80,7 @@ public class ClientProxy extends CommonProxy {
         super.init(e);
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileLamp.class, new RenderLamp());
+        MinecraftForge.EVENT_BUS.register(new RenderDebugScreen());
     }
 
     private static void addBlockRender(net.minecraft.block.Block block, int metadata, String blockString, String location) {

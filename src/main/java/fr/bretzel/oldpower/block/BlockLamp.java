@@ -126,13 +126,14 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider, ILamp {
     public void neighborChanged(IBlockState blockState, World world, BlockPos pos, Block block) {
         if (!world.isRemote) {
             if (getLampType() == LampType.LAMP_LIT && !world.isBlockPowered(pos)) {
-                world.scheduleUpdate(pos, block, 4);
+                world.scheduleUpdate(pos, this, 4);
             } else if (getLampType() == LampType.LAMP && world.isBlockPowered(pos)) {
                 world.setBlockState(pos, CommonRegistry.blockLitLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
             }
         }
     }
 
+    @Override
     public void updateTick(World world, BlockPos pos, IBlockState blockState, Random random) {
         if(!world.isRemote) {
             if(getLampType() == LampType.LAMP_LIT && !world.isBlockPowered(pos)) {
