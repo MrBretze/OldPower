@@ -1,24 +1,30 @@
 package fr.bretzel.oldpower.client.render;
 
 import fr.bretzel.oldpower.Logger;
-import fr.bretzel.oldpower.OldPower;
-import fr.bretzel.oldpower.network.TpsNetWork;
-import fr.bretzel.oldpower.util.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class RenderDebugScreen {
 
     private static final DecimalFormat df;
     private static final DecimalFormatSymbols dfs;
+    public static UUID localPlayerUUID;
+    public static List<UUID> players = new ArrayList<>();
+    public static double MS_TPS = 00.00D;
+    private static HashMap<UUID, Integer> integerHashMap = new HashMap<>();
 
     static {
         df = new DecimalFormat("###.###");
@@ -27,13 +33,24 @@ public class RenderDebugScreen {
         df.setDecimalFormatSymbols(dfs);
     }
 
+    @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onDebugRender(RenderGameOverlayEvent.Text event) {
         if (Minecraft.getMinecraft().gameSettings.showDebugInfo) {
-            event.getLeft().add("");
-            String stTPS = String.valueOf(df.format(Math.min(1000.0 / TpsNetWork.MS, 20)));
-            double tps = Double.parseDouble(stTPS);
-            event.getLeft().add("TPS: " + getColorTPS(tps) + " (" + df.format(TpsNetWork.MS) + " MS)");
+
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!players.contains(event.player.getPersistentID())) {
+            localPlayerUUID = event.player.getPersistentID();
+        }
+    }
+
+    @SubscribeEvent
+    public void onTickEvent(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {
         }
     }
 
@@ -53,16 +70,5 @@ public class RenderDebugScreen {
 
         Logger.info(i);
         return TextFormatting.WHITE + String.valueOf(i);
-    }
-
-    @SubscribeEvent
-    public void onTickEvent(TickEvent.PlayerTickEvent event) {
-        if (event.player != null && event.player.getServer() != null && OldPower.isClientSide) {
-            EntityPlayer pl = event.player;
-            if (pl instanceof EntityPlayerMP) {
-                EntityPlayerMP playerMP = (EntityPlayerMP) pl;
-                TpsNetWork.MS = Util.mean(playerMP.mcServer.tickTimeArray) * 1.0E-6D;
-            }
-        }
     }
 }

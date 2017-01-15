@@ -1,13 +1,10 @@
 package fr.bretzel.oldpower.proxy;
 
-import fr.bretzel.oldpower.client.render.RenderDebugScreen;
 import fr.bretzel.oldpower.util.CommonRegistry;
-import net.minecraftforge.common.MinecraftForge;
+import fr.bretzel.oldpower.util.Register;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
-import fr.bretzel.oldpower.util.Register;
 
 public class CommonProxy {
 
