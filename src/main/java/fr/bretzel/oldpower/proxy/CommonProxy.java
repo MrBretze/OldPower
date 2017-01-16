@@ -15,6 +15,8 @@ import net.minecraftforge.fml.relauncher.Side;
 public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent e) {
+        Register.registerBlock(CommonRegistry.blockBasalt);
+        Register.registerBlock(CommonRegistry.blockTephra);
         Register.registerBlock(CommonRegistry.blockLamp);
         Register.registerBlock(CommonRegistry.blockLitLamp);
         Register.registerBlock(CommonRegistry.blockDecorativeLamp);

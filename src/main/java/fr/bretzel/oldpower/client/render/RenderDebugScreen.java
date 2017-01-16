@@ -15,26 +15,18 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 public class RenderDebugScreen {
 
-    private static final DecimalFormat df;
-    private static final DecimalFormatSymbols dfs;
     public static List<UUID> players = new ArrayList<>();
     public static double MS = 00.00D;
+    public static double TPS = 00.00D;
     public static long lastSend = 0;
-    private static HashMap<UUID, Integer> integerHashMap = new HashMap<>();
 
     static {
-        df = new DecimalFormat("###.###");
-        dfs = DecimalFormatSymbols.getInstance();
-        dfs.setDecimalSeparator('.');
-        df.setDecimalFormatSymbols(dfs);
         lastSend = System.currentTimeMillis();
     }
 
@@ -43,16 +35,14 @@ public class RenderDebugScreen {
     public void onDebugRender(RenderGameOverlayEvent.Text event) {
         if (Minecraft.getMinecraft().gameSettings.showDebugInfo) {
             event.getLeft().add("");
-            String stTPS = String.valueOf(df.format(Math.min(1000.0 / MS, 20)));
-            double tps = Double.parseDouble(stTPS);
-            event.getLeft().add("TPS: " + getColorTPS(tps) + " (" + df.format(MS) + " MS)");
+            event.getLeft().add("TPS: " + getColorTPS(TPS) + " (" + new DecimalFormat("###.###").format(MS) + " MS)");
         }
     }
 
     @SubscribeEvent
     public void onTickEvent(TickEvent.PlayerTickEvent event) {
         long sec = ((System.currentTimeMillis() - lastSend) / 1000);
-        if (event.player != null && event.player.getServer() != null && sec > 1) {
+        if (event.player != null && event.player.getServer() != null && sec >= 1) {
             EntityPlayer pl = event.player;
             if (event.side == Side.SERVER) {
                 double ms = Util.mean(pl.getServer().tickTimeArray) * 1.0E-6D;

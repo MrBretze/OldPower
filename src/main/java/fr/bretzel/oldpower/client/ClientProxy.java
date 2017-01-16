@@ -29,6 +29,9 @@ public class ClientProxy extends CommonProxy {
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
 
+        addBlockRender(CommonRegistry.blockBasalt, 0, OldPower.MODID + ":basalt", "inventory");
+        addBlockRender(CommonRegistry.blockTephra, 0, OldPower.MODID + ":tephra", "inventory");
+
         for (int i = 0; i < 16; i++) {
             addBlockRender(CommonRegistry.blockLamp, i, OldPower.MODID + ":un_lit/" + EnumDyeColor.byMetadata(i).getName().toLowerCase(), "inventory");
             addBlockRender(CommonRegistry.blockLitLamp, i, OldPower.MODID + ":lit/" + EnumDyeColor.byMetadata(i).getName().toLowerCase(), "inventory");

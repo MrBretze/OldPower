@@ -1,13 +1,10 @@
 package fr.bretzel.oldpower.block;
 
+import fr.bretzel.oldpower.OldPower;
+import fr.bretzel.oldpower.item.ItemBlockBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
-
-import java.util.List;
-
-import fr.bretzel.oldpower.OldPower;
-import fr.bretzel.oldpower.item.ItemBlockBase;
 
 public abstract class BlockBase extends Block {
 
@@ -16,6 +13,7 @@ public abstract class BlockBase extends Block {
     public BlockBase(String unlocalizedName) {
         super(Material.GROUND);
         this.unlocalizedName = unlocalizedName;
+        setCreativeTab(OldPower.tabs);
     }
 
     @Override

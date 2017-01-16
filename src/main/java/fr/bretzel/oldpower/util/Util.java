@@ -3,7 +3,6 @@ package fr.bretzel.oldpower.util;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-
 import org.lwjgl.opengl.GL11;
 
 public class Util {
@@ -83,5 +82,15 @@ public class Util {
             sum += v;
         }
         return sum / values.length;
+    }
+
+    public static BlockPos[] getAdjacent(BlockPos pos) {
+        int i = 0;
+        BlockPos[] adjacent = new BlockPos[6];
+        for (EnumFacing facing : EnumFacing.VALUES) {
+            adjacent[i] = getRelative(pos, facing);
+            i++;
+        }
+        return adjacent;
     }
 }
