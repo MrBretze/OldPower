@@ -1,11 +1,15 @@
 package fr.bretzel.oldpower.client.render;
 
 import fr.bretzel.oldpower.Logger;
+import fr.bretzel.oldpower.OldPower;
+import fr.bretzel.oldpower.network.TPSNetwork;
+import fr.bretzel.oldpower.util.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,9 +25,9 @@ public class RenderDebugScreen {
 
     private static final DecimalFormat df;
     private static final DecimalFormatSymbols dfs;
-    public static UUID localPlayerUUID;
     public static List<UUID> players = new ArrayList<>();
-    public static double MS_TPS = 00.00D;
+    public static double MS = 00.00D;
+    public static long lastSend = 0;
     private static HashMap<UUID, Integer> integerHashMap = new HashMap<>();
 
     static {
@@ -31,26 +35,30 @@ public class RenderDebugScreen {
         dfs = DecimalFormatSymbols.getInstance();
         dfs.setDecimalSeparator('.');
         df.setDecimalFormatSymbols(dfs);
+        lastSend = System.currentTimeMillis();
     }
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onDebugRender(RenderGameOverlayEvent.Text event) {
         if (Minecraft.getMinecraft().gameSettings.showDebugInfo) {
-
+            event.getLeft().add("");
+            String stTPS = String.valueOf(df.format(Math.min(1000.0 / MS, 20)));
+            double tps = Double.parseDouble(stTPS);
+            event.getLeft().add("TPS: " + getColorTPS(tps) + " (" + df.format(MS) + " MS)");
         }
     }
 
     @SubscribeEvent
-    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (!players.contains(event.player.getPersistentID())) {
-            localPlayerUUID = event.player.getPersistentID();
-        }
-    }
-
-    @SubscribeEvent
-    public void onTickEvent(TickEvent.ServerTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) {
+    public void onTickEvent(TickEvent.PlayerTickEvent event) {
+        long sec = ((System.currentTimeMillis() - lastSend) / 1000);
+        if (event.player != null && event.player.getServer() != null && sec > 1) {
+            EntityPlayer pl = event.player;
+            if (event.side == Side.SERVER) {
+                double ms = Util.mean(pl.getServer().tickTimeArray) * 1.0E-6D;
+                OldPower.networkWrapper.sendTo(new TPSNetwork(ms), (EntityPlayerMP) pl);
+                lastSend = System.currentTimeMillis();
+            }
         }
     }
 

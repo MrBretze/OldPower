@@ -1,7 +1,6 @@
 package fr.bretzel.oldpower.client;
 
 import fr.bretzel.oldpower.OldPower;
-import fr.bretzel.oldpower.client.render.RenderDebugScreen;
 import fr.bretzel.oldpower.client.render.RenderLamp;
 import fr.bretzel.oldpower.proxy.CommonProxy;
 import fr.bretzel.oldpower.tiles.TileLamp;
@@ -11,7 +10,6 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -44,7 +42,6 @@ public class ClientProxy extends CommonProxy {
         super.init(e);
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileLamp.class, new RenderLamp());
-        MinecraftForge.EVENT_BUS.register(new RenderDebugScreen());
     }
 
     @Override
