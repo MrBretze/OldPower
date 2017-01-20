@@ -53,7 +53,7 @@ public class OldPower {
     };
     public static boolean isClientSide = FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT;
     public static SimpleNetworkWrapper networkWrapper;
-    @SidedProxy(serverSide = "fr.bretzel.oldpower.proxy.CommonProxy", clientSide = "fr.bretzel.oldpower.client.ClientProxy")
+    @SidedProxy(serverSide = "fr.bretzel.oldpower.proxy.CommonProxy", clientSide = "fr.bretzel.oldpower.proxy.ClientProxy")
     public static CommonProxy proxy;
 
     @EventHandler

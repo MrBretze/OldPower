@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "oldpower:charred_log"
+    },
+    "axis=z": {
+      "model": "oldpower:charred_log",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "oldpower:charred_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=none": {
+      "model": "oldpower:charred_bark"
+    }
+  }
+}

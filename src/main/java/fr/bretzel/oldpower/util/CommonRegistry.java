@@ -11,4 +11,5 @@ public class CommonRegistry {
     public static BlockBase blockDecorativeLamp = new BlockDecorativeLamp("lamp_decorative");
     public static BlockBase blockBasalt = new BlockBasalt("basalt");
     public static Block blockTephra = new BlockTephra("tephra");
+    public static Block blockCharredLog = new BlockCharredLog("charred_log");
 }

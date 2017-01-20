@@ -93,4 +93,8 @@ public class Util {
         }
         return adjacent;
     }
+
+    public static BlockPos copyPos(BlockPos blockPos) {
+        return new BlockPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+    }
 }

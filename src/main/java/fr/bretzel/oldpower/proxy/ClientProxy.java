@@ -1,8 +1,7 @@
-package fr.bretzel.oldpower.client;
+package fr.bretzel.oldpower.proxy;
 
 import fr.bretzel.oldpower.OldPower;
 import fr.bretzel.oldpower.client.render.RenderLamp;
-import fr.bretzel.oldpower.proxy.CommonProxy;
 import fr.bretzel.oldpower.tiles.TileLamp;
 import fr.bretzel.oldpower.util.CommonRegistry;
 import net.minecraft.block.Block;
@@ -31,6 +30,7 @@ public class ClientProxy extends CommonProxy {
 
         addBlockRender(CommonRegistry.blockBasalt, 0, OldPower.MODID + ":basalt", "inventory");
         addBlockRender(CommonRegistry.blockTephra, 0, OldPower.MODID + ":tephra", "inventory");
+        addBlockRender(CommonRegistry.blockCharredLog, 0, OldPower.MODID + ":charred_log", "inventory");
 
         for (int i = 0; i < 16; i++) {
             addBlockRender(CommonRegistry.blockLamp, i, OldPower.MODID + ":un_lit/" + EnumDyeColor.byMetadata(i).getName().toLowerCase(), "inventory");
