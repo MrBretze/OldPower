@@ -4,6 +4,7 @@ import fr.bretzel.oldpower.Logger;
 import fr.bretzel.oldpower.util.CommonRegistry;
 import fr.bretzel.oldpower.util.Util;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -21,7 +22,7 @@ public class WorldGenVolcano implements IWorldGenerator {
     private static final int MAX_RADIUS = 200;
     private double CHANCE = 0.025;
 
-    private HashMap<Integer, Integer> hashMap = new HashMap<>();
+    private static final HashMap<Integer, Integer> hashMap = new HashMap<>();
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
@@ -75,10 +76,10 @@ public class WorldGenVolcano implements IWorldGenerator {
     public boolean canReplace(World world, BlockPos pos) {
         if (world.isAirBlock(pos))
             return true;
-
-        Material material = world.getBlockState(pos).getMaterial();
+        Block block = world.getBlockState(pos).getBlock();
+        Material material = block.getMaterial(block.getDefaultState());
         return (material == Material.WOOD || material == Material.AIR || material == Material.CACTUS || material == Material.LEAVES ||
-                material == Material.PLANTS || material == Material.WATER || material == Material.VINE);
+                material == Material.PLANTS || material == Material.VINE || block == Blocks.WATER || block == Blocks.FLOWING_WATER);
     }
 
     public void setBasalt(BlockPos pos, World world) {
