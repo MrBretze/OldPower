@@ -5,10 +5,13 @@ import fr.bretzel.oldpower.util.CommonRegistry;
 import fr.bretzel.oldpower.util.LongHashMap;
 import fr.bretzel.oldpower.util.Util;
 
+import javafx.geometry.Pos;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -22,11 +25,11 @@ public class WorldGenVolcano implements IWorldGenerator {
     private static final int MAX_RADIUS = 200;
     private double CHANCE = 0.025;
 
-    private LongHashMap hashMap;
+    private LongHashMap hashMap = new LongHashMap();
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-        hashMap = new LongHashMap();
+
         if (random.nextDouble() <= CHANCE) {
             int middleX = chunkX * 16 + random.nextInt(16);
             int middleZ = chunkZ * 16 + random.nextInt(16);
@@ -35,57 +38,55 @@ public class WorldGenVolcano implements IWorldGenerator {
             if (world.getBlockState(new BlockPos(middleX, 10, middleZ)).getMaterial() == Material.LAVA) {
 
                 ArrayList<Pos>[] poss = getPositions();
-
                 Logger.info("Genererate new Volcano at: X: %d, Y:%d , Z: %d", middleX, baseY, middleZ);
-
                 boolean first = true;
 
                 for (int dist = 0; dist < poss.length; dist++) {
+
                     ArrayList<Pos> posArrayList = poss[dist];
                     boolean isFinished = true;
+
                     for (Pos p : posArrayList) {
+
                         int worldHeight = world.getHeight(p.x + middleX, p.z + middleZ) - 1;
                         int posHeight = first ? baseY : getNewVolcHeight(worldHeight, p, random, dist);
 
-                        if (worldHeight >= 0 && (posHeight > worldHeight)) {
+                        if (worldHeight >= 0 && (posHeight > worldHeight || canReplace(world, new BlockPos(p.x + middleX, posHeight, p.z + middleZ)))) {
 
                             hashMap.add(Util.chunkXZ2Int(p.x, p.z), posHeight);
 
                             if (!first) {
-                                for (int i = posHeight; i > 0 && (i > worldHeight || canReplace(world, new BlockPos(p.x + middleX, posHeight, p.z + middleZ))); i--) {
-                                    BlockPos blockPos = new BlockPos(p.x + middleX, i, p.z + middleZ);
-                                    setBasalt(blockPos, world);
-                                }
-
-                                for (int i = posHeight + 1; i < baseY; i++) {
-                                    if (canReplace(world, new BlockPos(p.x + middleX, i, p.z + middleZ))
-                                            && world.getBlockState(new BlockPos(p.x + middleX, i, p.z + middleZ)).getMaterial() != Material.WATER)
-                                        world.setBlockState(new BlockPos(p.x + middleX, i, p.z + middleZ), Blocks.AIR.getDefaultState(), 2);
+                                for (int i = posHeight; i > 0 && (i <= baseY && (i > worldHeight) || canReplace(world, new BlockPos(p.x + middleX, i, p.z + middleZ))); i--) {
+                                    setBlock(new BlockPos(p.x + middleX, i, p.z + middleZ), CommonRegistry.blockBasalt, world);
                                 }
                             }
                             isFinished = false;
                         }
                         first = false;
                     }
-                    if (isFinished)
+                    if (isFinished) {
+                        hashMap = new LongHashMap();
                         break;
+                    }
                 }
             }
         }
     }
 
+
     public boolean canReplace(World world, BlockPos pos) {
         if (world.isAirBlock(pos))
             return true;
         Block block = world.getBlockState(pos).getBlock();
-        Material material = block.getMaterial(block.getDefaultState());
+        Material material = block.getDefaultState().getMaterial();
         return (material == Material.WOOD || material == Material.AIR || material == Material.CACTUS || material == Material.LEAVES ||
                 material == Material.PLANTS || material == Material.VINE || block == Blocks.WATER || block == Blocks.FLOWING_WATER);
     }
 
-    public void setBasalt(BlockPos pos, World world) {
-        world.setBlockState(pos, CommonRegistry.blockBasalt.getDefaultState(), 2);
+    private void setBlock(BlockPos pos, Block block, World world) {
+        world.setBlockState(pos, block.getDefaultState());
     }
+
 
     public ArrayList<Pos>[] getPositions() {
         ArrayList<Pos>[] distMap = new ArrayList[MAX_RADIUS];
@@ -119,7 +120,7 @@ public class WorldGenVolcano implements IWorldGenerator {
             }
         }
 
-        if (neighborCount != 0 ) {
+        if (neighborCount != 0) {
             double avgHeight = totalHeight / neighborCount;
 
             if (avgHeight < baseHeight + 2 && random.nextInt(5) != 0) {
@@ -133,7 +134,7 @@ public class WorldGenVolcano implements IWorldGenerator {
             } else if (distFromCenter == 2) {
                 blocksDown = random.nextInt(2);
             } else {
-                blocksDown = (int) (Math.pow(avgHeight - baseHeight + 1, 1.2) * 0.007D + (random.nextDouble() - 0.5) * 3 + 0.4D);
+                blocksDown = (int) (Math.pow(avgHeight - baseHeight + 1, 1.2) * 0.005D + (random.nextDouble() - 0.5) * 3 + 0.4D);
             }
 
             if (blocksDown < 0) {
@@ -205,6 +206,7 @@ public class WorldGenVolcano implements IWorldGenerator {
                         // than the world
                         // height, generate.
                         volcanoMap.add(Util.chunkXZ2Int(p.x, p.z), posHeight);
+
                         if (!first) {
                             for (int i = posHeight; i > 0 && (i > worldHeight || canReplace(world, new BlockPos(p.x + x, i, p.z + z))); i--) {
                                 setBlock(new BlockPos(p.x + x, i, p.z + z), random.nextBoolean() ? random.nextBoolean() ?
@@ -265,10 +267,6 @@ public class WorldGenVolcano implements IWorldGenerator {
     }
 
 
-    /**
-     * Saves an array of relative Positions with distance to origin. The index is the distance, the element the positions with that distance to the
-     * origin.
-     *
     @SuppressWarnings("unchecked")
     private List<Pos>[] calculateDistMap() {
 
@@ -289,18 +287,6 @@ public class WorldGenVolcano implements IWorldGenerator {
         return distMap;
     }
 
-    /**
-     * Calculates a height for the requested position. It looks at the adjacent (already generated) volcano heights, takes the average, and blends in
-     * a bit of randomness. If there are no neighbors this is the first volcano block generated, meaning it's the center, meaning it should get the
-     * max height.
-     *
-     * @param worldHeight    Terrain height
-     * @param requestedPos   New volcano position
-     * @param rand
-     * @param distFromCenter
-     * @return
-     */
-    /*
     private int getNewVolcanoHeight(int worldHeight, Pos requestedPos, Random rand, int distFromCenter) {
 
         int neighborCount = 0;
