@@ -5,6 +5,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Random;
+
 public class Util {
 
     public static BlockPos getRelative(BlockPos pos, EnumFacing facing) {
@@ -94,7 +96,18 @@ public class Util {
         return adjacent;
     }
 
+    public static int randWithin50(Random rand, int input) {
+        if (input > 1)
+            return input + rand.nextInt(input / 2) - rand.nextInt(input / 2);
+        return 1;
+    }
+
     public static BlockPos copyPos(BlockPos blockPos) {
         return new BlockPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+    }
+
+    public static int chunkXZ2Int(int x, int z)
+    {
+        return (int) (x & 4294967295L | (z & 4294967295L) << 32);
     }
 }

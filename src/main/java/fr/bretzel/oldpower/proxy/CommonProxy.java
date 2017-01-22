@@ -5,11 +5,13 @@ import fr.bretzel.oldpower.client.render.RenderDebugScreen;
 import fr.bretzel.oldpower.network.TPSNetwork;
 import fr.bretzel.oldpower.util.CommonRegistry;
 import fr.bretzel.oldpower.util.Register;
+import fr.bretzel.oldpower.world.WorldGenVolcano;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class CommonProxy {
@@ -28,6 +30,8 @@ public class CommonProxy {
 
     public void init(FMLInitializationEvent e) {
         MinecraftForge.EVENT_BUS.register(new RenderDebugScreen());
+
+        GameRegistry.registerWorldGenerator(new WorldGenVolcano(), 0);
     }
 
     public void postInit(FMLPostInitializationEvent e) {

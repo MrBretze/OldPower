@@ -14,11 +14,12 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import java.util.List;
 import java.util.Random;
 
 import fr.bretzel.oldpower.OldPower;
@@ -85,7 +86,7 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider, ILamp {
     }
 
     @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+    public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
         if (getLampType() == LampType.LAMP || getLampType() == LampType.LAMP_DECORATIVE)
             for (EnumDyeColor color : EnumDyeColor.values())
                 list.add(new ItemStack(itemIn, 1, color.getMetadata()));
@@ -123,12 +124,12 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider, ILamp {
     }
 
     @Override
-    public void neighborChanged(IBlockState blockState, World world, BlockPos pos, Block block) {
+    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
         if (!world.isRemote) {
             if (getLampType() == LampType.LAMP_LIT && !world.isBlockPowered(pos)) {
                 world.scheduleUpdate(pos, this, 4);
             } else if (getLampType() == LampType.LAMP && world.isBlockPowered(pos)) {
-                world.setBlockState(pos, CommonRegistry.blockLitLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(blockState))), 2);
+                world.setBlockState(pos, CommonRegistry.blockLitLamp.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(getMetaFromState(state))), 2);
             }
         }
     }

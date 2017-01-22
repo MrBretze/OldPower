@@ -46,8 +46,10 @@ public class RenderDebugScreen {
             EntityPlayer pl = event.player;
             if (event.side == Side.SERVER) {
                 double ms = Util.mean(pl.getServer().tickTimeArray) * 1.0E-6D;
-                OldPower.networkWrapper.sendTo(new TPSNetwork(ms), (EntityPlayerMP) pl);
-                lastSend = System.currentTimeMillis();
+                if (ms != MS) {
+                    OldPower.networkWrapper.sendTo(new TPSNetwork(ms), (EntityPlayerMP) pl);
+                    lastSend = System.currentTimeMillis();
+                }
             }
         }
     }

@@ -18,4 +18,8 @@ public class Logger {
     public static void info(Object object) {
         log(Level.INFO, String.valueOf(object));
     }
+
+    public static void info(String msg, Object... objs) {
+        FMLLog.info(PREFIX + msg, objs);
+    }
 }
