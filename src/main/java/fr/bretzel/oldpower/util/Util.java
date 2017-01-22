@@ -3,6 +3,8 @@ package fr.bretzel.oldpower.util;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Random;
@@ -13,10 +15,12 @@ public class Util {
         return pos.add(facing.getDirectionVec());
     }
 
+    @SideOnly(Side.CLIENT)
     public static void addVertex(double x, double y, double z) {
         GlStateManager.glVertex3f((float) x, (float) y, (float) z);
     }
 
+    @SideOnly(Side.CLIENT)
     public static void drawColoredCube(Vec3DCube cube, double r, double g, double b, double a, boolean... renderFaces) {
 
         GL11.glColor4d(r, g, b, a);
@@ -106,8 +110,8 @@ public class Util {
         return new BlockPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
     }
 
-    public static int chunkXZ2Int(int x, int z)
+    public static long chunkXZ2Int(int x, int z)
     {
-        return (int) (x & 4294967295L | (z & 4294967295L) << 32);
+        return x & 4294967295L | (z & 4294967295L) << 32;
     }
 }

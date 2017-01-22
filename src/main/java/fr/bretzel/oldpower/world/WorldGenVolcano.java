@@ -2,6 +2,7 @@ package fr.bretzel.oldpower.world;
 
 import fr.bretzel.oldpower.Logger;
 import fr.bretzel.oldpower.util.CommonRegistry;
+import fr.bretzel.oldpower.util.LongHashMap;
 import fr.bretzel.oldpower.util.Util;
 
 import net.minecraft.block.Block;
@@ -14,7 +15,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 public class WorldGenVolcano implements IWorldGenerator {
@@ -22,10 +22,11 @@ public class WorldGenVolcano implements IWorldGenerator {
     private static final int MAX_RADIUS = 200;
     private double CHANCE = 0.025;
 
-    private static final HashMap<Integer, Integer> hashMap = new HashMap<>();
+    private LongHashMap hashMap;
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+        hashMap = new LongHashMap();
         if (random.nextDouble() <= CHANCE) {
             int middleX = chunkX * 16 + random.nextInt(16);
             int middleZ = chunkZ * 16 + random.nextInt(16);
@@ -48,7 +49,7 @@ public class WorldGenVolcano implements IWorldGenerator {
 
                         if (worldHeight >= 0 && (posHeight > worldHeight)) {
 
-                            hashMap.put(Util.chunkXZ2Int(p.x, p.z), posHeight);
+                            hashMap.add(Util.chunkXZ2Int(p.x, p.z), posHeight);
 
                             if (!first) {
                                 for (int i = posHeight; i > 0 && (i > worldHeight || canReplace(world, new BlockPos(p.x + middleX, posHeight, p.z + middleZ))); i--) {
@@ -110,7 +111,7 @@ public class WorldGenVolcano implements IWorldGenerator {
 
         for (int x = pos.x - 1; x <= pos.x + 1; x++) {
             for (int z = pos.z - 1; z <= pos.z + 1; z++) {
-                Integer neighborHeight = hashMap.get(Util.chunkXZ2Int(x, z));
+                Integer neighborHeight = (Integer) hashMap.getValueByKey(Util.chunkXZ2Int(x, z));
                 if (neighborHeight != null) {
                     neighborCount++;
                     totalHeight += neighborHeight;
@@ -132,7 +133,7 @@ public class WorldGenVolcano implements IWorldGenerator {
             } else if (distFromCenter == 2) {
                 blocksDown = random.nextInt(2);
             } else {
-                blocksDown = (int) (Math.pow(avgHeight - baseHeight + 1, 1.5) * 0.005D + (random.nextDouble() - 0.5) * 3 + 0.4D);
+                blocksDown = (int) (Math.pow(avgHeight - baseHeight + 1, 1.2) * 0.007D + (random.nextDouble() - 0.5) * 3 + 0.4D);
             }
 
             if (blocksDown < 0) {
