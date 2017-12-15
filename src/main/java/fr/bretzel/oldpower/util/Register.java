@@ -5,6 +5,7 @@ import fr.bretzel.oldpower.block.BlockBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class Register {
@@ -16,8 +17,8 @@ public class Register {
         } else {
             block.setRegistryName(OldPower.MODID, block.getUnlocalizedName().substring(6 + OldPower.MODID.length()));
 
-            GameRegistry.register(block);
-            GameRegistry.register(new ItemBlock(block), block.getRegistryName());
+            ForgeRegistries.BLOCKS.register(block);
+            ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(OldPower.MODID, block.getUnlocalizedName().substring(6 + OldPower.MODID.length())));
         }
     }
 
@@ -34,17 +35,17 @@ public class Register {
         }
 
         if (blockBase.hasSubType() <= 0) {
-            GameRegistry.register(blockBase);
-            GameRegistry.register(new ItemBlock(blockBase), blockBase.getRegistryName());
+            ForgeRegistries.BLOCKS.register(blockBase);
+            ForgeRegistries.ITEMS.register(new ItemBlock(blockBase).setRegistryName(OldPower.MODID, blockBase.getUnlocalizedName().substring(6 + OldPower.MODID.length())));
             return;
         } else {
-            GameRegistry.register(blockBase);
+            ForgeRegistries.BLOCKS.register(blockBase);
             try {
-                GameRegistry.register(blockBase.getItemBlock().getConstructor(BlockBase.class).newInstance(blockBase).setRegistryName(blockBase.getRegistryName()));
+                ForgeRegistries.ITEMS.register(blockBase.getItemBlock().getConstructor(BlockBase.class).newInstance(blockBase).setRegistryName(blockBase.getRegistryName()));
                 return;
             } catch (Exception e) {
                 try {
-                    GameRegistry.register(blockBase.getItemBlock().getConstructor(Block.class).newInstance(blockBase).setRegistryName(blockBase.getRegistryName()));
+                    ForgeRegistries.ITEMS.register(blockBase.getItemBlock().getConstructor(Block.class).newInstance(blockBase).setRegistryName(blockBase.getRegistryName()));
                     return;
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -52,6 +53,6 @@ public class Register {
             }
         }
 
-        GameRegistry.register(blockBase);
+        ForgeRegistries.BLOCKS.register(blockBase);
     }
 }

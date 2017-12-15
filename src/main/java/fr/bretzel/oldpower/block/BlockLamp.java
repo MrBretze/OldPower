@@ -66,11 +66,6 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider, ILamp {
     }
 
     @Override
-    public MapColor getMapColor(IBlockState state) {
-        return state.getValue(COLOR).getMapColor();
-    }
-
-    @Override
     public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(meta));
     }
@@ -86,10 +81,22 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider, ILamp {
     }
 
     @Override
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+        if (getLampType() == LampType.LAMP || getLampType() == LampType.LAMP_DECORATIVE)
+            for (EnumDyeColor color : EnumDyeColor.values())
+                list.add(new ItemStack(this, 1, color.getMetadata()));
+    }
+
+    /* @Override
     public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
         if (getLampType() == LampType.LAMP || getLampType() == LampType.LAMP_DECORATIVE)
             for (EnumDyeColor color : EnumDyeColor.values())
                 list.add(new ItemStack(itemIn, 1, color.getMetadata()));
+    }*/
+
+    @Override
+    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+        return MapColor.getBlockColor(state.getValue(COLOR));
     }
 
     @Override

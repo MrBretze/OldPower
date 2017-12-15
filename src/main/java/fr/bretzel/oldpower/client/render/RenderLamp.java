@@ -7,7 +7,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -29,7 +28,7 @@ public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
     }
 
     @Override
-    public void renderTileEntityAt(TileLamp te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileLamp te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 
         if (!(te.getBlockType() instanceof BlockLamp)) {
             return;
@@ -103,7 +102,7 @@ public class RenderLamp extends TileEntitySpecialRenderer<TileLamp> {
             GlStateManager.enableLighting();
             GlStateManager.enableTexture2D();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            //GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
+            GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
             GlStateManager.disableBlend();
             GlStateManager.translate(-x, -y, -z);
             GlStateManager.popMatrix();

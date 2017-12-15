@@ -1,12 +1,13 @@
 package fr.bretzel.oldpower.block;
 
 import fr.bretzel.oldpower.item.ItemBlockBase;
+import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 
 public class BlockBasalt extends BlockBase {
 
     public BlockBasalt(String unlocalizedName) {
-        super(unlocalizedName);
+        super(unlocalizedName, Material.ROCK);
     }
 
     @Override

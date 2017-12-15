@@ -8,10 +8,16 @@ import net.minecraft.tileentity.TileEntity;
 
 public abstract class BlockBase extends Block {
 
-    private String unlocalizedName = "";
+    private String unlocalizedName;
 
     public BlockBase(String unlocalizedName) {
         super(Material.GROUND);
+        this.unlocalizedName = unlocalizedName;
+        setCreativeTab(OldPower.tabs);
+    }
+
+    public BlockBase(String unlocalizedName, Material material) {
+        super(material);
         this.unlocalizedName = unlocalizedName;
         setCreativeTab(OldPower.tabs);
     }

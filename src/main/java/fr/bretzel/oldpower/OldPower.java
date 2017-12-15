@@ -26,7 +26,7 @@ public class OldPower {
     public static final int VERSION_MAJOR = 0;
     public static final int VERSION_MINOR = 0;
     public static final int VERSION_FIX = 1;
-    public static final String VERSION_MINECRAFT = "1.11,1.11.2";
+    public static final String VERSION_MINECRAFT = "1.12";
     public static final String VERSION = "V-" + VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_FIX;
     public static Random random = new Random();
     public static final CreativeTabs tabs = new CreativeTabs("OldPower") {
