@@ -41,6 +41,9 @@ public class BlockLamp extends BlockBase implements ITileEntityProvider, ILamp {
         this.type = type;
         this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
 
+        setHardness(12);
+        setResistance(3500);
+
         if (type == LampType.LAMP_LIT || type == LampType.LAMP_DECORATIVE)
             setLightLevel(1.0F);
     }

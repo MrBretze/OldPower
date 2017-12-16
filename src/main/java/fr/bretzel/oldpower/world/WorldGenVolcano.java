@@ -24,10 +24,61 @@ public class WorldGenVolcano implements IWorldGenerator {
 
     private HashMap<BlockPos, Integer> hashMap = new HashMap<>();
 
+    public static ArrayList<Object> canReplaceList = new ArrayList<>();
+
+    public static ArrayList<Block> logToCharredLog = new ArrayList<>();
+    public static ArrayList<Block> sandToTephra = new ArrayList<>();
+
+    public WorldGenVolcano() {
+
+        /**
+         * Material
+         */
+        canReplaceList.add(Material.WOOD);
+        canReplaceList.add(Material.CACTUS);
+        canReplaceList.add(Material.LEAVES);
+        canReplaceList.add(Material.PLANTS);
+        canReplaceList.add(Material.VINE);
+        canReplaceList.add(Material.WATER);
+        canReplaceList.add(Material.LAVA);
+        canReplaceList.add(Material.GRASS);
+
+        /**
+         * Blocks
+         */
+        canReplaceList.add(Blocks.WATER);
+        canReplaceList.add(Blocks.FLOWING_WATER);
+        canReplaceList.add(Blocks.LOG);
+        canReplaceList.add(Blocks.LOG2);
+        canReplaceList.add(Blocks.LEAVES);
+        canReplaceList.add(Blocks.LEAVES2);
+        canReplaceList.add(Blocks.MAGMA);
+        canReplaceList.add(Blocks.BROWN_MUSHROOM_BLOCK);
+        canReplaceList.add(Blocks.RED_MUSHROOM_BLOCK);
+        canReplaceList.add(Blocks.TALLGRASS);
+        canReplaceList.add(Blocks.DOUBLE_PLANT);
+        canReplaceList.add(CommonRegistry.blockBasalt);
+        canReplaceList.add(CommonRegistry.blockCharredLog);
+
+        /**
+         * Consume Log to charred Log
+         */
+        logToCharredLog.add(Blocks.LOG);
+        logToCharredLog.add(Blocks.LOG2);
+
+        /**
+         * Replace sand And gravel to tephra
+         */
+        sandToTephra.add(Blocks.SAND);
+        sandToTephra.add(Blocks.GRAVEL);
+
+    }
+
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-        if (world.isRemote)
+        if (world.isRemote || !world.provider.isSurfaceWorld())
             return;
+
         if (random.nextDouble() <= CHANCE) {
             int middleX = chunkX * 16 + random.nextInt(16);
             int middleZ = chunkZ * 16 + random.nextInt(16);
@@ -35,7 +86,12 @@ public class WorldGenVolcano implements IWorldGenerator {
 
             if (world.getBlockState(new BlockPos(middleX, 10, middleZ)).getMaterial() == Material.LAVA) {
 
-                ArrayList<Pos>[] poss = getPositions();
+                ArrayList<Pos>[] poss = getPositions(world, middleX, middleZ, chunkGenerator);
+
+                if (poss == null) {
+                    Logger.info("Canceled Volcano generation !");
+                    return;
+                }
 
                 Logger.info("Genererate new Volcano at: X: %d, Y:%d , Z: %d", middleX, baseY, middleZ);
 
@@ -65,7 +121,10 @@ public class WorldGenVolcano implements IWorldGenerator {
                                     Block b = (world.isAirBlock(new BlockPos(pos).up()) || world.getBlockState(new BlockPos(pos.up())).getMaterial() == Material.WATER)
                                             ? random.nextFloat() <= 0.15 ? Blocks.MAGMA : CommonRegistry.blockBasalt : CommonRegistry.blockBasalt;
 
+                                    setBlock(pos, Blocks.AIR, world);
                                     setBlock(pos, b, world);
+
+
 
                                     BlockPos bpob = new BlockPos(middleX, posHeight, middleZ);
 
@@ -75,6 +134,22 @@ public class WorldGenVolcano implements IWorldGenerator {
                                         if (world.getBlockState(bpob) != Blocks.BEDROCK.getDefaultState())
                                             setBlock(bpob, Blocks.LAVA, world);
                                     }
+
+                                    /*for (int x = -17; x <= 17; x++) {
+                                        for (int z = -17; z <= 17; z++) {
+                                            BlockPos postion = new BlockPos(p.x + middleX + x, i - 1, p.z + middleZ + z);
+                                            IBlockState state = world.getBlockState(postion);
+                                            Block block = state.getBlock();
+
+                                            if (state.getMaterial() == Material.LEAVES || state.getMaterial() == Material.PLANTS || state.getMaterial() == Material.VINE)
+                                                setBlock(postion, Blocks.AIR, world);
+
+                                            if (logToCharredLog.contains(block))
+                                                setBlock(postion, CommonRegistry.blockCharredLog.getStateFromMeta(block.getMetaFromState(state)), world);
+                                            if (sandToTephra.contains(block))
+                                                setBlock(postion, CommonRegistry.blockTephra, world);
+                                        }
+                                    }*/
 
                                     countFirst++;
                                 }
@@ -92,17 +167,13 @@ public class WorldGenVolcano implements IWorldGenerator {
         }
     }
 
-    public boolean canReplace(World world, int x, int y, int z) {
-        return canReplace(world, new BlockPos(x, y, z));
-    }
-
     public boolean canReplace(World world, BlockPos pos) {
         if (world.isAirBlock(pos))
             return true;
 
         IBlockState state = world.getBlockState(pos);
         Material material = state.getMaterial();
-        return (state == Blocks.BEDROCK.getDefaultState() || material == Material.WATER || material == Material.ROCK || material == Material.WOOD);
+        return canReplaceList.contains(material) || canReplaceList.contains(state.getBlock());
     }
 
     private void setBlock(BlockPos pos, Block block, World world) {
@@ -110,11 +181,22 @@ public class WorldGenVolcano implements IWorldGenerator {
         world.setBlockState(pos, block.getDefaultState());
     }
 
+    private void setBlock(BlockPos pos, IBlockState block, World world) {
+        world.getBlockState(pos);
+        world.setBlockState(pos, block);
+    }
 
-    public ArrayList<Pos>[] getPositions() {
+
+    public ArrayList<Pos>[] getPositions(World world, int midleX, int midleZ, IChunkGenerator generator) {
         ArrayList<Pos>[] distMap = new ArrayList[MAX_RADIUS];
         for (int x = -MAX_RADIUS; x <= MAX_RADIUS; x++) {
             for (int z = -MAX_RADIUS; z <= MAX_RADIUS; z++) {
+                BlockPos pos = new BlockPos(midleX + x, world.rand.nextInt(60) + 50, midleZ + z);
+                if (generator.isInsideStructure(world, "Village", pos) ||
+                        generator.isInsideStructure(world, "Stronghold", pos)) {
+                    return null;
+                }
+
                 int dist = (int) Math.sqrt(x * x + z * z);
                 if (dist < MAX_RADIUS) {
                     ArrayList<Pos> distList = distMap[dist];

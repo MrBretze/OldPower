@@ -35,3 +35,8 @@ tile.oldpower.lamp_decorative.black.name=Decorative Black Lamp
 
 #Creative tabs
 itemGroup.OldPower=Old Power
+
+#Volcano Block
+tile.oldpower.basalt.name=Basalt
+tile.oldpower.tephra.name=Tephra
+tile.oldpower.charred_log.name=Charred Log

@@ -15,6 +15,9 @@ public class BlockTephra extends BlockFalling {
         this.unlocalizedName = unlocalizedName;
         setSoundType(SoundType.SAND);
         setCreativeTab(OldPower.tabs);
+
+        setResistance(2.5F);
+        setHardness(0.5F);
     }
 
     public String getUnlocalizedName() {
