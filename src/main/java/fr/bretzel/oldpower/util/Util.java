@@ -100,18 +100,28 @@ public class Util {
         return adjacent;
     }
 
-    public static int randWithin50(Random rand, int input) {
-        if (input > 1)
-            return input + rand.nextInt(input / 2) - rand.nextInt(input / 2);
-        return 1;
+    public static double distanceSqrt(BlockPos base, BlockPos to) {
+        return Math.sqrt(distance(base, to));
     }
 
-    public static BlockPos copyPos(BlockPos blockPos) {
-        return new BlockPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+    public static double distance(BlockPos base, BlockPos to) {
+        double x = base.getX();
+        double xt = to.getX();
+
+        double y = base.getY();
+        double yt = to.getY();
+
+        double z = base.getZ();
+        double zt = to.getZ();
+
+        return square(x - xt) + square(y - yt) + square(z - zt);
     }
 
-    public static long chunkXZ2Int(int x, int z)
-    {
+    public static double square(double num) {
+        return num * num;
+    }
+
+    public static long chunkXZ2Int(int x, int z) {
         return x & 4294967295L | (z & 4294967295L) << 32;
     }
 }

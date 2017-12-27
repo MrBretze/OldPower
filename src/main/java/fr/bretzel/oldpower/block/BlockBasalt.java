@@ -12,7 +12,7 @@ import java.util.Random;
 public class BlockBasalt extends BlockBase {
 
     public BlockBasalt(String unlocalizedName) {
-        super(unlocalizedName, Material.ROCK);
+        super(unlocalizedName);
         this.setResistance(60);
         this.setHardness(4);
         this.setHarvestLevel("Pickaxe", 1);

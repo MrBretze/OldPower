@@ -38,7 +38,7 @@ public class BlockCharredLog extends BlockRotatedPillar {
 
     @Override
     public int quantityDropped(IBlockState state, int fortune, Random random) {
-        return fortune + random.nextInt(4 + fortune / 2);
+        return 1 + fortune + random.nextInt(4 + fortune / 2);
     }
 
     public String getUnlocalizedName() {
